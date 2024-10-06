@@ -110,6 +110,7 @@ body {
 
 .task-table {
     width: 100%;
+    border-collapse: collapse;
 }
 
 .task-table th {
@@ -117,4 +118,18 @@ body {
     padding-bottom: 1rem;
     color: white;
     background-color: limegreen;
+}
+
+.task-table td, th {
+    border: 2px solid #cccccc;
+    text-align: center;
+    padding: 1rem;
+}
+
+.task-table tr:nth-child(odd) {
+    background-color: #ddddddad;
+}
+
+.task-table tr:has(td):hover {
+    background-color: #cccccca2;
 }

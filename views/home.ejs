@@ -1,7 +1,5 @@
 <%- include("./partials/head.ejs") %>
 
-
-
 <div class="container">
     <h1 class="main-title">
         Vazifalar jadvali
@@ -18,25 +16,28 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>New todo</td>
-                    <td>Something</td>
-                    <td>Kutilyapti...</td>
-                    <td><button>Click</button></td>
-                </tr>
+                <% if (todos.length > 0) { %>
+                    <% for (let todo in todos) { %>
+                        <tr>
+                            <td><%= todo.id %></td>
+                            <td><%= todo.title %></td>
+                            <td><%= todo.desc %></td>
+                            <td><%= todo.status %></td>
+                            <td>
+                                <button>Click</button>
+                                <button>Click</button>
+                            </td>
+                        </tr>
+                    <% } %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="5">Hozircha sizda yangi vazifalar yo'q</td>
+                      </tr>
+                    <% } %>
             </tbody>
         </table>
     </div>
 </div>
-
-
-
-
-
-
-
-
 
 
 <%- include("./partials/foot.ejs") %>
