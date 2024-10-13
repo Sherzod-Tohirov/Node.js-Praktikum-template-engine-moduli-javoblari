@@ -133,3 +133,114 @@ body {
 .task-table tr:has(td):hover {
     background-color: #cccccca2;
 }
+
+.completed-input {
+    display: none;
+}
+
+
+
+.completed-label {
+    position: relative;
+    display: flex;
+    margin: 0 auto; 
+    flex-grow: 1;
+    height: 2.2rem;
+    background-color: #cccccce1;
+    border-radius: 1.5rem;
+    cursor: pointer;
+}
+
+.completed-label::before {
+    content: "Kutilyapti";
+    position: absolute;
+    top: 50%;
+    left: 2%;
+    transform: translateY(-50%);
+    width: 109px;
+    height: 1.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    border-radius: inherit;
+    color: white;
+    transition: 0.2s ease;
+}
+
+
+.completed-input:checked + label::before {
+    left: 58%;
+    content: "Bajarildi";
+    background-color: rgba(0, 128, 0, 0.66);
+ }
+
+
+ .todo-row:has(.completed-input:checked) {
+    opacity: 0.8;
+    background-color: rgba(107, 238, 0, 0.662);
+ }
+
+ .todo-form {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding-top: 2rem;
+    gap: 1rem;
+    align-items: center;
+ }
+
+ .todo-input {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 0.4rem;
+ }
+
+ textarea.todo-input {
+    min-height: 80px;
+    max-height: 140px;
+    resize: vertical;
+ }
+
+ .todo-btn {
+    flex-grow: 1;
+    width: 100%;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: rgba(50, 205, 50, 0.826);
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+ }
+
+ .todo-btn:active {
+    transform: scale(0.95);
+ }
+
+ .btn {
+    min-width: 110px;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+ }
+
+ .btn:active {
+    transform: scale(0.95);
+ }
+
+ .btn-edit {
+    background-color: rgb(59, 156, 241);
+ }
+
+ .btn-delete {
+    background-color: rgba(255, 0, 0, 0.781);
+ }

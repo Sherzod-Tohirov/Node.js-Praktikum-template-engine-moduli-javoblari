@@ -12,32 +12,85 @@
                     <th>Nomi</th>
                     <th>Tavsifi</th>
                     <th>Holati</th>
-                    <th>Boshqarish</th>
+                    <th>Holatni o'zgartirish</th>
+                    <th>Bashqaruv</th>
                 </tr>
             </thead>
             <tbody>
-                <% if (todos.length > 0) { %>
-                    <% for (let todo in todos) { %>
-                        <tr>
-                            <td><%= todo.id %></td>
+                <% if (todos.length > 0) { let counter = 1 %>
+                    <% for (let todo of todos) { %>
+                        <tr class="todo-row">
+                            <td><%= counter %></td>
                             <td><%= todo.title %></td>
                             <td><%= todo.desc %></td>
-                            <td><%= todo.status %></td>
+                            <td><%= todo.completed ? "Bajarildi" : "Kutilyapti" %></td>
+                            <td class="completed-cell">
+                                <input checked="<%= todo.completed %>" onchange="handleStatusChange(event, '<%= todo.id %>')" class="completed-input" id="action-<%= counter %>" type="checkbox" name="completed" />
+                                <label for="action-<%= counter %>" class="completed-label"></label>
+                            </td>
                             <td>
-                                <button>Click</button>
-                                <button>Click</button>
+                                <button class="btn btn-edit">Tahrirlash</button>
+                                <button class="btn btn-delete" onclick="handleTaskDelete( '<%= todo.id %>')">O'chirish</button>
                             </td>
                         </tr>
-                    <% } %>
+                    <% counter++ } %>
                     <% } else { %>
                       <tr>
-                        <td colspan="5">Hozircha sizda yangi vazifalar yo'q</td>
+                        <td colspan="6">Hozircha sizda yangi vazifalar yo'q</td>
                       </tr>
                     <% } %>
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+ 
+ async function handleStatusChange(e, id) {
+    console.log("Checked: ", e.target.checked);
+    const data = await fetch(`/task/${id}/update`, {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({completed: e.target.checked})
+        });
+        console.log('data:', data);
+        const res = await data.json();
+        console.log('res: ', res);
+        console.log('Changed !', e);
+        setTimeout(() => window.location.reload(), 500);
+        if(res.status === 200) {
+            e.target.checked = res.data.completed;
+        }else {
+            alert('Xatolik yuzberdi !');
+            alert(res?.message);
+            console.log(res);
+        }
+  }
+
+  async function handleTaskDelete(id) {
+    console.log("Id :", id);
+    const confirmation = confirm("O'chirishni tasdiqlang !");
+    if(confirmation) {
+        const response = await fetch(`task/${id}/delete`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    const res = await response.json();
+
+    if(res.status === 200) {
+        alert("Muvaffaqiyatli o'chirildi !");
+        window.location.reload();
+    }else {
+        alert("Xatolik yuz berdi !"); 
+        console.log(res);
+    }
+   }
+}
+</script>
 
 
 <%- include("./partials/foot.ejs") %>
