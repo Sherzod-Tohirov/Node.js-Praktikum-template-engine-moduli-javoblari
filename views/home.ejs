@@ -23,10 +23,10 @@
                             <td><%= counter %></td>
                             <td><%= todo.title %></td>
                             <td><%= todo.desc %></td>
-                            <td><%= todo.completed ? "Bajarildi" : "Kutilyapti" %></td>
+                            <td class="status-cell" id="statusText<%= todo.id %>"><%= todo.completed ? "Bajarildi" : "Kutilyapti" %></td>
                             <td class="completed-cell">
-                                <input checked="<%= todo.completed %>" onchange="handleStatusChange(event, '<%= todo.id %>')" class="completed-input" id="action-<%= counter %>" type="checkbox" name="completed" />
-                                <label for="action-<%= counter %>" class="completed-label"></label>
+                                <input id="checkedInput<%= todo.id %>" <%= todo.completed ? 'checked' : '' %> onchange="handleStatusChange(event, '<%= todo.id %>')" class="completed-input" type="checkbox" name="completed" />
+                                <label for="checkedInput<%= todo.id %>" class="completed-label"></label>
                             </td>
                             <td>
                                 <button class="btn btn-edit">Tahrirlash</button>
@@ -42,11 +42,16 @@
             </tbody>
         </table>
     </div>
+
 </div>
 
 <script>
- 
+
+
  async function handleStatusChange(e, id) {
+    const statusText = document.getElementById(`statusText${id}`);
+    statusText.innerHTML = e.target.checked ? "Bajarildi" : "Kutilyapti";
+
     console.log("Checked: ", e.target.checked);
     const data = await fetch(`/task/${id}/update`, {
             headers: {
@@ -59,7 +64,6 @@
         const res = await data.json();
         console.log('res: ', res);
         console.log('Changed !', e);
-        setTimeout(() => window.location.reload(), 500);
         if(res.status === 200) {
             e.target.checked = res.data.completed;
         }else {
