@@ -153,6 +153,7 @@ body {
     display: flex;
     margin: 0 auto; 
     flex-grow: 1;
+    flex-shrink: 0;
     height: 2.2rem;
     background-color: #cccccce1;
     border-radius: 1.5rem;
@@ -178,14 +179,14 @@ body {
 
 
 .completed-input:checked + label::before {
-    left: 58%;
+    left: 49%;
     content: "Bajarildi";
     background-color: rgba(0, 128, 0, 0.66);
  }
 
 
  .todo-row:has(.completed-input:checked) {
-    opacity: 0.8;
+    opacity: 0.75;
     background-color: rgba(107, 238, 0, 0.662);
  }
 
@@ -193,10 +194,7 @@ body {
     min-width: 120px;
  }
 
- .completed-cell {
-    min-width: 185px !important;
-    max-width: 185px !important;
- }
+
 
  .todo-form {
     max-width: 500px;
@@ -261,6 +259,40 @@ body {
  .btn-delete {
     background-color: rgba(255, 0, 0, 0.781);
  }
+
+ .task-update-dialog {
+    max-width: 400px;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+ }
+
+ .task-update-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+ }
+
+ .secondary-title {
+    font-size: 24px;
+    margin: 0;
+ }
+
+ .dialog-action-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+ }
+
+ .close-btn {
+    background-color: red;
+ }
+
 
 
  /* Footer styles */

@@ -21,15 +21,15 @@
                     <% for (let todo of todos) { %>
                         <tr class="todo-row">
                             <td><%= counter %></td>
-                            <td><%= todo.title %></td>
-                            <td><%= todo.desc %></td>
+                            <td style="min-width: 140px; max-width: 140px; word-break: break-all;"><%= todo.title %></td>
+                            <td style="min-width: 140px; max-width: 140px; word-break: break-all;"><%= todo.desc %></td>
                             <td class="status-cell" id="statusText<%= todo.id %>"><%= todo.completed ? "Bajarildi" : "Kutilyapti" %></td>
                             <td class="completed-cell">
                                 <input id="checkedInput<%= todo.id %>" <%= todo.completed ? 'checked' : '' %> onchange="handleStatusChange(event, '<%= todo.id %>')" class="completed-input" type="checkbox" name="completed" />
                                 <label for="checkedInput<%= todo.id %>" class="completed-label"></label>
                             </td>
                             <td>
-                                <button class="btn btn-edit">Tahrirlash</button>
+                                <button class="btn btn-edit" onclick="handleTaskUpdate('<%= JSON.stringify(todo) %>')">Tahrirlash</button>
                                 <button class="btn btn-delete" onclick="handleTaskDelete( '<%= todo.id %>')">O'chirish</button>
                             </td>
                         </tr>
@@ -42,10 +42,44 @@
             </tbody>
         </table>
     </div>
+    <dialog class="task-update-dialog">
+        <h2 class="secondary-title">Vazifani tahrirlash</h2>
+        <form id="todoForm" class="todo-form" action="/task/:id/update" method="POST">
+            <input id="todoTitle" required class="todo-input" type="text" name="todo_title" placeholder="Vazifa uchun sarlavha..." />
+            <textarea id="todoDesc" required class="todo-input" type="text" name="todo_desc" placeholder="Vazifa uchun tavsif..."></textarea>
+            <div class="dialog-action-wrapper">
+                <button id="closeBtn" type="button" class="todo-btn close-btn">Yopish</button>
+                <button id="submitBtn" type="submit" class="todo-btn">Saqlash</button>
+            </div>
+        </form>
+    </dialog>
 
 </div>
-
 <script>
+
+
+async function handleTaskUpdate(task) {
+   const parsedTask = JSON.parse(task);
+   console.log(parsedTask)
+   const updateDialog = document.querySelector('.task-update-dialog');
+   const updateForm = updateDialog.querySelector('#todoForm');
+   const taskTitle = updateDialog.querySelector("#todoTitle");
+   const taskDesc = updateDialog.querySelector("#todoDesc");
+   const closeBtn = updateDialog.querySelector("#closeBtn");
+   const submitBtn = updateDialog.querySelector("#submitBtn");
+   taskTitle.value = parsedTask.title;
+   taskDesc.value = parsedTask.desc;
+   updateForm.action = `task/${parsedTask.id}/update`;
+
+   updateDialog.showModal();
+   updateDialog.style.display = "flex";
+
+   closeBtn.addEventListener("click", () => {
+    updateDialog.close();
+    updateDialog.style.display = "none";
+   })
+
+}
 
 
  async function handleStatusChange(e, id) {

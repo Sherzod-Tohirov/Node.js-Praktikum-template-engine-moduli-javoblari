@@ -71,11 +71,17 @@ router.post("/task/:id/update", (req, res) => {
       message: "Muvaffaqiyatli o'zgartirildi !",
     });
   }
-  console.log("params: ", req.params);
-  console.log("body: ", req.body);
-  res.end();
-
-  //  Update
+  if (!req.body.todo_title || !req.body.todo_desc) {
+    res.status(400).json({
+      error: true,
+      message: "Malumotlar to'liq kiritilmagan !",
+      status: 400,
+    });
+  }
+  //  Update whole object
+  foundTodo.title = req.body.todo_title;
+  foundTodo.desc = req.body.todo_desc;
+  res.redirect("/");
 });
 
 router.delete("/task/:id/delete", (req, res) => {
